@@ -31,9 +31,63 @@ const product2: IProduct<string,string> = {
     book1: 
         id: 1
         title: "Title 1"
-        description: true
+        status: true
     book2:
         id: "2"
         title: "Title 2"
-        description: false
+        status: "desc 2"
 */ 
+
+interface IBook<A,B,C>{
+    id: A,
+    title:B,
+    status:C
+}
+
+const myBooks:IBook<number,string,boolean>[] = [
+    {id:1,title:"Title 1",status:true},
+    {id:2,title:"Title 2",status:false},
+    {id:3,title:"Title 3",status:true},
+]
+const book1:IBook<number,string,boolean> = {
+    id:1,
+    title:"Title 1",
+    status:true
+}
+
+const yourBooks:IBook<string,string,string>[] = [
+    {id:"1",title:"Title 1",status:"true"},
+    {id:"2",title:"Title 2",status:"false"},
+    {id:"3",title:"Title 3",status:"true"},
+]
+const book2: IBook<string,string,string> = {
+    id:"2",
+    title:"Title 2",
+    status:"desc 2"
+}
+
+const product:{id:number,name:string,desc?:string} = {
+    id:1,
+    name:"abcd"
+}
+interface IProps {
+    id?:number,
+    name?:string,
+    desc?:string
+}
+
+// const prop: Partial<IProps> = {
+
+// }
+
+// const prop: Required<IProps> = {}
+
+
+interface Person {
+    name: string;
+    age: number;
+    location?: string;
+  }
+
+  type Primitive = string | number | boolean
+const value: Exclude<Primitive, string> = 123; // a string cannot be used here since Exclude removed it from the type.
