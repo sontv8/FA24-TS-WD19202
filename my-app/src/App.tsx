@@ -16,11 +16,11 @@ const productList:IProduct[] = [
 
 function App() {
   const [products,setProducts] = useState(productList)
+  const [product,setProduct] = useState({})
 
   const onHandleRemove = (id:number) => {
     // const newData = products.filter((item) => {
     //   return Number(item.id) != id
-      
     // })
     // setProducts(newData)
 
@@ -31,8 +31,39 @@ function App() {
     }
   }
 
+  const onHandleChange = (e) => {
+
+    console.log(e.target.name);
+    console.log(e.target.value);
+    const {name,value} = e.target;
+    setProduct({...product,[name]:value});
+    // computed property name
+    
+  }
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    const newData = [...products,{id:products.length + 1, ...product}]
+    setProducts(newData)
+  }
+
   return (
     <>
+    {JSON.stringify(product)}
+    <form onSubmit={onHandleSubmit}>
+      <div className="form-group">
+        <label htmlFor="">Tên sản phẩm</label>
+        <input type="text" name='name' onInput={onHandleChange}/>
+      </div>
+      <div className="form-group">
+        <label htmlFor="">Giá sản phẩm</label>
+        <input type="text" name='price' onInput={onHandleChange} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="">Ảnh sản phẩm</label>
+        <input type="text"  name='image' onInput={onHandleChange}/>
+      </div>
+      <button>Thêm mới sản phẩm</button>
+    </form>
     <table>
       <thead>
         <tr>
