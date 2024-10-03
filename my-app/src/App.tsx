@@ -17,17 +17,46 @@ const productList:IProduct[] = [
 function App() {
   const [products,setProducts] = useState(productList)
 
+  const onHandleRemove = (id:number) => {
+    // const newData = products.filter((item) => {
+    //   return Number(item.id) != id
+      
+    // })
+    // setProducts(newData)
+
+    if(confirm("Bạn có muốn xoá không?")){
+      setProducts(products.filter((item) => {
+        return Number(item.id) != id
+      }))
+    }
+  }
+
   return (
     <>
-      {products.map((product) => {
-        return <div key={product.id}>
-          <h2>{product.name}</h2>
-          <p>{product.price}</p>
-          <img src={product.image} alt="" />
-          <div><button>Delete</button></div>
-          
-        </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Tên sản phẩm</th>
+          <th>Giá sản phẩm</th>
+          <th>Ảnh sản phẩm</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {products.map((product:IProduct) => {
+        return (
+            <tr key={product.id}>
+              <td>{product.name}</td>
+              <td>{product.price}</td>
+              <td><img src={product.image} alt="" /></td>
+              <td><button onClick={() => onHandleRemove(Number(product.id))}>Delete</button></td>
+            </tr>
+        )
       })}
+      </tbody>
+    </table>
+      
     </>
   )
 }
