@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import ProductManagement from './pages/ProductManagement'
 import { IProduct } from './interfaces/Product'
 import AddProduct from './pages/AddProduct'
+import UpdateProduct from './pages/UpdateProduct'
 
 function App() {
   const [products,setProducts] = useState<IProduct[]>([])
@@ -58,9 +59,22 @@ function App() {
       <Route path='/admin' element={<HomePage />}/>
       <Route path='/admin/products' element={<ProductManagement products={products} onHandleRemove={onHandleRemove}/>}/>
       <Route path="/admin/products/add" element={<AddProduct onHandleChange={onHandleChange} onHandleSubmit={onHandleSubmit}/>}/>
+      <Route path="/admin/products/:id/update" element={<UpdateProduct products={products}/>}/>
     </Routes>
     </>
   )
 }
 
 export default App
+
+/*
+  Update:
+    B1: tạo component UpdateProduct.tsx
+    B2: tạo router
+    B3: lấy id sản phẩm trên url
+    B4: lấy thông tin sản phẩm cần update dựa vào id
+    B5: hiển thị thông tin sản phẩm cần update vào form
+    B6: lấy thông tin mới từ form
+    B7: call api và update dữ liệu mới
+    B8: hiển thị lại danh sách sản phẩm
+*/ 
