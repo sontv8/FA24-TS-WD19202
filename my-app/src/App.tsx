@@ -1,55 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { ChangeEvent, EventHandler, FormEventHandler, useEffect, useState } from 'react'
 import './App.css'
-interface IProduct {
-  id:string,
-  name:string,
-  price:number,
-  image:string
-}
-const productList:IProduct[] = [
-  {id:"1",name:"Product 1",price:100, image: "https://picsum.photos/200/120"},
-  {id:"2",name:"Product 2",price:200, image: "https://picsum.photos/200/120"},
-  {id:"3",name:"Product 3",price:300, image: "https://picsum.photos/200/120"}
-]
+import { Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import ProductManagement from './pages/ProductManagement'
+import { IProduct } from './interfaces/Product'
 
 function App() {
-  const [products,setProducts] = useState(productList)
-  const [product,setProduct] = useState({})
+  const [products,setProducts] = useState<IProduct[]>([])
+  // const [product,setProduct] = useState({})
+
+  useEffect(()=>{
+    fetch("http://localhost:3000/products")
+    .then((response) => response.json())
+    .then((data)=> setProducts(data))
+  },[])
 
   const onHandleRemove = (id:number) => {
-    // const newData = products.filter((item) => {
-    //   return Number(item.id) != id
-    // })
-    // setProducts(newData)
-
-    if(confirm("Bạn có muốn xoá không?")){
-      setProducts(products.filter((item) => {
-        return Number(item.id) != id
-      }))
-    }
-  }
-
-  const onHandleChange = (e) => {
-
-    console.log(e.target.name);
-    console.log(e.target.value);
-    const {name,value} = e.target;
-    setProduct({...product,[name]:value});
-    // computed property name
+    console.log("App:", id);
     
+    // if(confirm("Bạn có muốn xoá không?")){
+    //   fetch(`http://localhost:3000/products/${id}`,{
+    //     method:"DELETE"
+    //   }).then(() => setProducts(products.filter((item) => {
+    //     return Number(item.id) != id
+    //   })))
+    // }
   }
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-    const newData = [...products,{id:products.length + 1, ...product}]
-    setProducts(newData)
-  }
+
+  // const onHandleChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
+  //   console.log(e.target.name);
+  //   console.log(e.target.value);
+  //   const {name,value} = e.target;
+  //   setProduct({...product,[name]:value});
+  //   // computed property name
+  // }
+  // const onHandleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const newData:any = [...products,{id:products.length + 1, ...product}]
+  //   setProducts(newData)
+  // }
 
   return (
     <>
-    {JSON.stringify(product)}
-    <form onSubmit={onHandleSubmit}>
+    {/* <form onSubmit={onHandleSubmit}>
       <div className="form-group">
         <label htmlFor="">Tên sản phẩm</label>
         <input type="text" name='name' onInput={onHandleChange}/>
@@ -64,29 +57,19 @@ function App() {
       </div>
       <button>Thêm mới sản phẩm</button>
     </form>
-    <table>
-      <thead>
-        <tr>
-          <th>Tên sản phẩm</th>
-          <th>Giá sản phẩm</th>
-          <th>Ảnh sản phẩm</th>
-          <th>Hành động</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        {products.map((product:IProduct) => {
-        return (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td><img src={product.image} alt="" /></td>
-              <td><button onClick={() => onHandleRemove(Number(product.id))}>Delete</button></td>
-            </tr>
-        )
-      })}
-      </tbody>
-    </table>
+     */}
+    <Routes>
+      <Route path='/admin' element={<HomePage />}/>
+      <Route path='/admin/products' element={<ProductManagement products={products} onHandleRemove={onHandleRemove}/>}/>
+    </Routes>
+     {/* 
+        - /         Home
+        - /products Product
+
+
+        - /admin    Admin
+        - /admin/products  Admin Products
+     */}
       
     </>
   )
