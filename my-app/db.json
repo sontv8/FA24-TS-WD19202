@@ -11,6 +11,12 @@
       "name": "Product 2",
       "price": 200,
       "image": "https://picsum.photos/200/120"
+    },
+    {
+      "id": "504f",
+      "name": "New Product 2",
+      "price": "222222",
+      "image": "hhhhhh"
     }
   ]
 }

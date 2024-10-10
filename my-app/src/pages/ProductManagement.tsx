@@ -21,7 +21,7 @@ const ProductManagement = (props) => {
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td><img src={product.image} alt="" /></td>
-              <td><button onClick={() => props.onHandleRemove(Number(product.id))}>Delete</button></td>
+              <td><button onClick={() => props.onHandleRemove(product.id)}>Delete</button></td>
             </tr>
             
         )
