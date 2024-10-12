@@ -6,6 +6,8 @@ import ProductManagement from './pages/ProductManagement'
 import { IProduct } from './interfaces/Product'
 import AddProduct from './pages/AddProduct'
 import UpdateProduct from './pages/UpdateProduct'
+import ProductDetail from "./pages/ProductDetail"
+import { productSchema } from './schema/Product'
 
 function App() {
   const [products,setProducts] = useState<IProduct[]>([])
@@ -38,16 +40,22 @@ function App() {
   }
   const onHandleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetch(`http://localhost:3000/products`,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(product)
-    }).then((newProduct) => newProduct.json()).then((data)=> {
-      setProducts([...products,data])
-      navigate("/admin/products")
-    })
+
+    const error = productSchema.validate(product, {abortEarly:false})
+    console.log(error.error.details);
+    
+    
+
+    // fetch(`http://localhost:3000/products`,{
+    //   method:"POST",
+    //   headers:{
+    //     "Content-Type":"application/json"
+    //   },
+    //   body:JSON.stringify(product)
+    // }).then((newProduct) => newProduct.json()).then((data)=> {
+    //   setProducts([...products,data])
+    //   navigate("/admin/products")
+    // })
     
     // const newData:any = [...products,{id:products.length + 1, ...product}]
     // setProducts(newData)
@@ -60,6 +68,7 @@ function App() {
       <Route path='/admin/products' element={<ProductManagement products={products} onHandleRemove={onHandleRemove}/>}/>
       <Route path="/admin/products/add" element={<AddProduct onHandleChange={onHandleChange} onHandleSubmit={onHandleSubmit}/>}/>
       <Route path="/admin/products/:id/update" element={<UpdateProduct products={products}/>}/>
+      <Route path='/admin/products/:id' element={<ProductDetail products={products}/>}/>
     </Routes>
     </>
   )

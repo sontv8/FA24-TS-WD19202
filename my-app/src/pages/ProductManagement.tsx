@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { IProduct } from "../interfaces/Product"
 const ProductManagement = (props) => {
     // console.log("Product Management Page: ",props.onHandleRemove());// {products: [{},{}...]}
@@ -21,9 +22,17 @@ const ProductManagement = (props) => {
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td><img src={product.image} alt="" /></td>
-              <td><button onClick={() => props.onHandleRemove(product.id)}>Delete</button></td>
+              <td>
+                <button onClick={() => props.onHandleRemove(product.id)}>Delete</button>
+                <Link to={`/admin/products/${product.id}/update`}>
+                <button>Update</button>
+                </Link>
+                <Link to={`/admin/products/${product.id}`}>
+                <button>Chi tiết</button>
+                </Link>
+                
+              </td>
             </tr>
-            
         )
       })}
       </tbody>
